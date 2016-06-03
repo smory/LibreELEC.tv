@@ -1,0 +1,26 @@
+diff -Naur kodi-16.1-c327c53.orig/xbmc/utils/CPUInfo.cpp kodi-16.1-c327c53/xbmc/utils/CPUInfo.cpp
+--- kodi-16.1-c327c53.orig/xbmc/utils/CPUInfo.cpp	2016-06-03 17:43:15.203037305 +0200
++++ kodi-16.1-c327c53/xbmc/utils/CPUInfo.cpp	2016-06-03 17:44:29.000000000 +0200
+@@ -270,7 +270,9 @@
+   // read from the new location of the temperature data on new kernels, 2.6.39, 3.0 etc
+   if (m_fProcTemperature == NULL)   
+     m_fProcTemperature = fopen("/sys/class/hwmon/hwmon0/temp1_input", "r");
+-  if (m_fProcTemperature == NULL)   
++  if (m_fProcTemperature == NULL) 
++    m_fProcTemperature = fopen("/sys/class/thermal/thermal_zone1/temp", "r");  // On Amlogic based devices
++  if (m_fProcTemperature == NULL)
+     m_fProcTemperature = fopen("/sys/class/thermal/thermal_zone0/temp", "r");  // On Raspberry PIs
+ 
+   m_fCPUFreq = fopen ("/sys/devices/system/cpu/cpu0/cpufreq/scaling_cur_freq", "r");
+@@ -624,6 +626,11 @@
+     if (!ret)
+     {
+       ret = fscanf(m_fProcTemperature, "%d", &value);
++
++#if defined(HAS_LIBAMCODEC)  
++      if (aml_present())
++        value = value * 1000; // Amlogic cpu temp fix
++#endif
+       value = value / 1000;
+       scale = 'c';
+       ret++;
