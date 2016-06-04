@@ -22,6 +22,7 @@
 # https://github.com/xtranophilist/gnome-shell-extension-cpu-temperature/blob/master/extension.js
 
 TEMP=0
+TEMP_DIVISOR=1000
 
 if [ $(basename "$0") = "gputemp" -o "$1" = "gpu" ]; then
   if which lspci >/dev/null; then
@@ -61,6 +62,14 @@ if [ "$1" = "cpu" -o "$TEMP" = "0" ]; then
     TEMP=`cat /sys/bus/acpi/devices/LNXTHERM\:00/thermal_zone/temp`
   fi
 
+  # used on (some?) Amlogic based devices
+  if [ "$TEMP" = "0" -a -f /sys/class/thermal/thermal_zone1/temp ]; then
+    TEMP=`cat /sys/class/thermal/thermal_zone1/temp`
+    if [ "$TEMP" != "0" ];  then
+      TEMP_DIVISOR=1
+    fi
+  fi  
+  
   # used on some intel systems
   if [ "$TEMP" = "0" -a -f /sys/devices/virtual/thermal/thermal_zone0/temp ]; then
     TEMP=`cat /sys/devices/virtual/thermal/thermal_zone0/temp`
@@ -71,7 +80,7 @@ if [ "$1" = "cpu" -o "$TEMP" = "0" ]; then
     TEMP=`cat /sys/class/thermal/thermal_zone0/temp`
   fi
 
-  TEMP="$(( $TEMP / 1000 ))"
+  TEMP="$(( $TEMP / $TEMP_DIVISOR ))"
 fi
 
 echo "${TEMP} C"
