@@ -1,5 +1,5 @@
 [Unit]
-#Description=Broadcom sdio firmware update for %I
+Description=Broadcom sdio firmware update for %I
 Requires=bluetooth.service
 After=bluetooth.service
 
