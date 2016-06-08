@@ -18,7 +18,7 @@
 
 PKG_NAME="multimedia-tools"
 PKG_VERSION=""
-PKG_REV="100"
+PKG_REV="101"
 PKG_ARCH="any"
 PKG_LICENSE="GPL"
 PKG_SITE=""
@@ -27,20 +27,22 @@ PKG_DEPENDS_TARGET="toolchain"
 PKG_PRIORITY="optional"
 PKG_SECTION="virtual"
 PKG_SHORTDESC="A bundle of multimedia tools and programs"
-PKG_LONGDESC="This bundle currently includes mediainfo, mesa-demos, opencaster, tsdecrypt and tstools."
+PKG_LONGDESC="This bundle currently includes mediainfo, mesa-demos, mpg123, opencaster, squeezelite, tsdecrypt and tstools."
 
 PKG_IS_ADDON="yes"
 PKG_ADDON_NAME="Multimedia Tools"
 PKG_ADDON_TYPE="xbmc.python.script"
 PKG_ADDON_PROVIDES=""
-PKG_ADDON_REPOVERSION="7.0"
+PKG_ADDON_REPOVERSION="8.0"
 
 PKG_AUTORECONF="no"
 
 PKG_DEPENDS_TARGET="toolchain \
                     mediainfo \
                     mesa-demos \
+                    mpg123 \
                     opencaster \
+                    squeezelite \
                     tsdecrypt \
                     tstools"
 
@@ -54,8 +56,14 @@ addon() {
     cp -P $(get_build_dir mesa-demos)/.$TARGET_NAME/src/xdemos/glxgears $ADDON_BUILD/$PKG_ADDON_ID/bin 2>/dev/null || :
     cp -P $(get_build_dir mesa-demos)/.$TARGET_NAME/src/xdemos/glxinfo $ADDON_BUILD/$PKG_ADDON_ID/bin 2>/dev/null || :
 
+    # mpg123
+    cp -P $(get_build_dir mpg123)/.install_pkg/usr/bin/* $ADDON_BUILD/$PKG_ADDON_ID/bin/
+
     # opencaster
     cp -P $(get_build_dir opencaster)/.install_pkg/* $ADDON_BUILD/$PKG_ADDON_ID/bin/
+
+    # squeezelite
+    cp -P $(get_build_dir squeezelite)/squeezelite $ADDON_BUILD/$PKG_ADDON_ID/bin/
 
     # tsdecrypt
     cp -P $(get_build_dir tsdecrypt)/tsdecrypt $ADDON_BUILD/$PKG_ADDON_ID/bin

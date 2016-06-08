@@ -17,9 +17,9 @@
 ################################################################################
 
 PKG_NAME="oscam"
-PKG_VERSION="09609e1"
-PKG_VERSION_NUMBER="11225"
-PKG_REV="100"
+PKG_VERSION="c677c6e"
+PKG_VERSION_NUMBER="11233"
+PKG_REV="101"
 PKG_ARCH="any"
 PKG_LICENSE="GPL"
 PKG_SITE="http://www.streamboard.tv/oscam/wiki"
@@ -34,7 +34,7 @@ PKG_IS_ADDON="yes"
 PKG_ADDON_NAME="OSCam"
 PKG_ADDON_TYPE="xbmc.service"
 PKG_AUTORECONF="no"
-PKG_ADDON_REPOVERSION="7.0"
+PKG_ADDON_REPOVERSION="8.0"
 
 pre_unpack()  {
 export OSCAM_ADDON_VERSION="$PKG_VERSION_NUMBER"

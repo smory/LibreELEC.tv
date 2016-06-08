@@ -1,9 +1,7 @@
-7.0.102
+8.0.102
+- Update for LibreELEC 8.0
 - Update to Tvheadend 4.1.1945
-- fixes problems with DVB-C sticks
-
-7.0.101
-- Update to Tvheadend 4.1.1928
+- fix the XMLTV import script
 
 7.0.100
 - initial LibreELEC version

@@ -33,7 +33,7 @@ PKG_IS_ADDON="yes"
 PKG_ADDON_NAME="Sundtek MediaTV"
 PKG_ADDON_TYPE="xbmc.service"
 PKG_AUTORECONF="no"
-PKG_ADDON_REPOVERSION="7.0"
+PKG_ADDON_REPOVERSION="8.0"
 
 make_target() {
   mkdir -p $ROOT/$PKG_BUILD
@@ -45,6 +45,9 @@ make_target() {
       ;;
     arm)
       INSTALLER_URL="http://sundtek.de/media/netinst/armsysvhf/installer.tar.gz"
+      ;;
+    aarch64)
+      INSTALLER_URL="http://sundtek.de/media/netinst/arm64/installer.tar.gz"
       ;;
   esac
   

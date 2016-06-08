@@ -34,7 +34,7 @@ PKG_AUTORECONF="yes"
 PKG_IS_ADDON="yes"
 PKG_ADDON_TYPE="xbmc.service"
 PKG_ADDON_PROVIDES=""
-PKG_ADDON_REPOVERSION="7.0"
+PKG_ADDON_REPOVERSION="8.0"
 PKG_MAINTAINER="Anton Voyl (awiouy at gmail dot com)"
 
 PKG_CONFIGURE_OPTS_TARGET="--disable-curses   \

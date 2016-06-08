@@ -1,5 +1,5 @@
 ################################################################################
-#      This file is part of LibreELEC - http://www.libreelec.tv
+#      This file is part of LibreELEC - https://libreelec.tv
 #      Copyright (C) 2009-2016 Lukas Rusak (lrusak@libreelec.tv)
 #
 #  LibreELEC is free software: you can redistribute it and/or modify
@@ -17,8 +17,8 @@
 ################################################################################
 
 PKG_NAME="docker"
-PKG_VERSION="1.11.1"
-PKG_REV="102"
+PKG_VERSION="1.11.2"
+PKG_REV="104"
 PKG_ARCH="any"
 PKG_ADDON_PROJECTS="Generic RPi RPi2"
 PKG_LICENSE="ASL"
@@ -34,7 +34,7 @@ PKG_AUTORECONF="no"
 PKG_IS_ADDON="yes"
 PKG_ADDON_NAME="Docker"
 PKG_ADDON_TYPE="xbmc.service"
-PKG_ADDON_REPOVERSION="7.0"
+PKG_ADDON_REPOVERSION="8.0"
 
 configure_target() {
   export DOCKER_BUILDTAGS="daemon \
