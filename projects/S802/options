@@ -135,4 +135,4 @@
     HW_RNG="yes"
 
   # OEM packages for OEM's (yes / no)
-    OEM_SUPPORT="yes"
+    OEM_SUPPORT="no"
