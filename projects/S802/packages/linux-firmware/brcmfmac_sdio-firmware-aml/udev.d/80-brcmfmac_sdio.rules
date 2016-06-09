@@ -3,7 +3,7 @@
 ################################################################################
 
 ACTION!="add", GOTO="end"
-SUBSYSTEM=="sdio", ATTRS{vendor}=="0x02d0", ATTRS{device}=="0xa962|0x4330", GOTO="begin"
+SUBSYSTEMS=="sdio", ATTRS{vendor}=="0x02d0", ATTRS{device}=="0xa962|0x4330", GOTO="begin"
 GOTO="end"
 
 LABEL="begin"
@@ -15,8 +15,7 @@ ATTRS{device}=="0xa962", \
 ATTRS{device}=="0x4330", \
   ENV{brcm_device}="bcm40183b2"
 
-TAG+="systemd", \
-  ENV{SYSTEMD_WANTS}+="brcmfmac_sdio-firmware@$env{brcm_device}.service", \
-    RUN+="/usr/bin/systemctl start brcmfmac_sdio-firmware@$env{brcm_device}.service"
+ENV{brcm_device}=="bcm*", ACTION=="add", \
+  TAG+="systemd", RUN+="/bin/sh -c '/usr/bin/systemctl is-enabled brcmfmac_sdio-firmware@$env{brcm_device}.service > /dev/null; test $? -gt 0 && /usr/bin/systemctl enable brcmfmac_sdio-firmware@$env{brcm_device}.service && /usr/bin/systemctl restart brcmfmac_sdio-firmware@$env{brcm_device}.service'"
 
 LABEL="end"
