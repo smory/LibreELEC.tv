@@ -1,8 +1,7 @@
 #!/bin/sh
-
 ################################################################################
 #      This file is part of OpenELEC - http://www.openelec.tv
-#      Copyright (C) 2014 Alex Deryskyba (alex@codesnake.com)
+#      Copyright (C) 2009-2016 Stephan Raue (stephan@openelec.tv)
 #
 #  OpenELEC is free software: you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -23,9 +22,6 @@ hdmimode=720p
 # Parse command line arguments
 for arg in $(cat /proc/cmdline); do
   case $arg in
-    hdmitx=*)
-      hdmitx="${arg#*=}"
-      ;;
     hdmimode=*)
       hdmimode="${arg#*=}"
       ;;
@@ -38,28 +34,22 @@ for arg in $(cat /proc/cmdline); do
     scaling_max_freq=*)
       scaling_max_freq="${arg#*=}"
       ;;
-    bootfromsd*)
-      bootfromsd=1
-      ;;
   esac
 done
 
 echo "$hdmimode" > /sys/class/display/mode
 
-# Force enable CEC if configuration parameter not present or empty
-if [ -z "$hdmitx" ]; then
-  echo 0xf > /sys/class/amhdmitx/amhdmitx0/cec_config
-fi
-
-# Enable framebuffer device
+# Enable first framebuffer
 echo 0 > /sys/class/graphics/fb0/blank
 
-# Blank fb1 to prevent static noise
+# Disable second framebuffer
 echo 1 > /sys/class/graphics/fb1/blank
 
 # Disable framebuffer scaling
 echo 0 > /sys/class/graphics/fb0/free_scale
-echo 0 > /sys/class/graphics/fb1/free_scale
+
+# set initial video state
+echo 1 > /sys/class/video/disable_video
 
 # Set framebuffer geometry to match the resolution
 case "$hdmimode" in
@@ -88,18 +78,3 @@ if [ -n "$scaling_max_freq" ]; then
   echo "$scaling_max_freq" > "$cpufreq/scaling_max_freq"
   echo "$scaling_max_freq" > "$cpufreq/scaling_dflt_freq"
 fi
-
-cmdline=$(cat /proc/cmdline)
-
-# Add information where to run OpenELEC from
-if [ -n "$bootfromsd" ]; then
-  cmdline="$cmdline BOOT_IMAGE=kernel.img boot=/dev/mmcblk0p1 disk=/dev/mmcblk0p2"
-else
-  cmdline="$cmdline BOOT_IMAGE=/dev/boot boot=/dev/system disk=/dev/data"
-fi
-
-echo "$cmdline" > /proc/cmdline
-
-for part in /sys/block/*/queue/add_random; do
-  echo 0 > "$part"
-done
