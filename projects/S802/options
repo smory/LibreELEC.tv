@@ -50,7 +50,7 @@
     GOLD_SUPPORT="yes"
 
   # SquashFS compression method (gzip / lzo / xz / lz4)
-    SQUASHFS_COMPRESSION="lzo"
+    SQUASHFS_COMPRESSION="lz4"
 
   # SquashFS block size (default: 131072)
     SQUASHFS_BLOCK_SIZE="16384"
@@ -135,4 +135,4 @@
     HW_RNG="yes"
 
   # OEM packages for OEM's (yes / no)
-    OEM_SUPPORT="no"
+    OEM_SUPPORT="yes"
