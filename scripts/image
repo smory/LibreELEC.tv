@@ -61,11 +61,16 @@ else
 fi
 IMAGE_NAME="$DISTRONAME-$TARGET_VERSION"
 
+# Set Amlogic update package name
+AML_UPDATE_NAME="$IMAGE_NAME"
+
 if [ "$DEVEL_VERSION" = "devel" ] ; then
   if [ -z "$DEVICE" ]; then
     IMAGE_NAME="$DISTRONAME-$PROJECT.$TARGET_ARCH-$OS_VERSION-$LIBREELEC_VERSION"
+    AML_UPDATE_NAME="$DISTRONAME-$PROJECT.$TARGET_ARCH-$OS_VERSION-$DEVEL_VERSION"
   else
     IMAGE_NAME="$DISTRONAME-$PROJECT.$DEVICE.$TARGET_ARCH-$OS_VERSION-$LIBREELEC_VERSION"
+    AML_UPDATE_NAME="$DISTRONAME-$PROJECT.$DEVICE.$TARGET_ARCH-$OS_VERSION-$DEVEL_VERSION"
   fi
 fi
 
@@ -271,7 +276,7 @@ fi
       MKBOOTIMG_SECOND=""
     fi
     mkbootimg --kernel arch/$TARGET_KERNEL_ARCH/boot/$KERNEL_TARGET --ramdisk $ROOT/$BUILD/image/initramfs.cpio \
-      $MKBOOTIMG_SECOND --output arch/$TARGET_KERNEL_ARCH/boot/boot.img
+      $MKBOOTIMG_SECOND $MKBOOTIMG_OPTIONS --output arch/$TARGET_KERNEL_ARCH/boot/boot.img
     echo "...done"
     popd > /dev/null
     cp -PR $BUILD/linux-$(kernel_version)/arch/$TARGET_KERNEL_ARCH/boot/boot.img $TARGET_IMG/$IMAGE_NAME.kernel
@@ -313,7 +318,7 @@ fi
       INSTALL_SRC_DIR="$PROJECT_DIR/$PROJECT/install"
     fi
 
-    MKIMAGE_TOOL_CMD="$ROOT/$BUILD/linux-$(kernel_version)/arch/$TARGET_KERNEL_ARCH/boot/mkimage -A $TARGET_KERNEL_ARCH -O linux -T script -C none -d"
+    MKIMAGE_TOOL_CMD="$(which mkimage) -A $TARGET_KERNEL_ARCH -O linux -T script -C none -d"
 
     # cleanup
       rm -rf $RELEASE_DIR
@@ -468,12 +473,12 @@ fi
         echo "Signing the update package"
         mkdir -p sign
         SIGNAPK_DIR="$ROOT/tools/signapk"
-        java -Xmx1024m -jar $SIGNAPK_DIR/signapk.jar -w $SIGNAPK_DIR/testkey.x509.pem $SIGNAPK_DIR/testkey.pk8 update.zip sign/$IMAGE_NAME-update.zip
+        java -Xmx1024m -jar $SIGNAPK_DIR/signapk.jar -w $SIGNAPK_DIR/testkey.x509.pem $SIGNAPK_DIR/testkey.pk8 update.zip sign/$AML_UPDATE_NAME-update.zip
 
         # create the auto-install package
         echo "Creating Amlogic ZIP auto-install package"
         pushd sign > /dev/null
-        echo --update_package=/sdcard/$IMAGE_NAME-update.zip > factory_update_param.aml
+        echo --update_package=/sdcard/$AML_UPDATE_NAME-update.zip > factory_update_param.aml
         echo --wipe_data >> factory_update_param.aml
         echo --wipe_cache >> factory_update_param.aml
         if [ -f "$INSTALL_SRC_DIR/files/recovery.img" ]; then
@@ -487,8 +492,6 @@ fi
         zip -q $TARGET_IMG/$IMAGE_NAME.zip *
         popd > /dev/null
 
-        # copy update package to target directory
-        cp sign/$IMAGE_NAME-update.zip $TARGET_IMG
         popd > /dev/null
 
       elif [ "$1" = "noobs" ]; then
