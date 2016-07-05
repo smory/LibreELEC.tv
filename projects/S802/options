@@ -31,7 +31,9 @@
 
   # Kernel to use. values can be:
   # default:  default mainline kernel
-    LINUX="amlogic-kszaq"
+    LINUX="custom"
+    KERNEL_VERSION="5df008c"
+    KERNEL_URL="https://github.com/kszaq/linux/archive/$KERNEL_VERSION.tar.gz"
 
 ################################################################################
 # setup build defaults
@@ -65,8 +67,11 @@
   # OpenGL(X) implementation to use (no / mesa)
     OPENGL="no"
 
-  # OpenGL-ES implementation to use (no / bcm2835-driver / gpu-viv-bin-mx6q / opengl-meson6)
-    OPENGLES="opengl-meson8"
+  # OpenGL-ES implementation to use (no / bcm2835-driver / gpu-viv-bin-mx6q / opengl-meson)
+    OPENGLES="opengl-meson"
+
+  # Amlogic Meson SOC family (8 / 6 / gxbb)
+    MESON_FAMILY="8"
 
   # include uvesafb support (yes / no)
     UVESAFB_SUPPORT="no"
