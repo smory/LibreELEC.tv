@@ -58,6 +58,12 @@ case "$hdmimode" in
     ;;
   1080*)
     fbset -fb /dev/fb0 -g 1920 1080 1920 2160 32
+    ;;  
+  4k2k*hz*)
+    fbset -fb /dev/fb0 -g 3840 2160 3840 4320 32
+    ;;  
+  4k2ksmpte)
+    fbset -fb /dev/fb0 -g 4096 2160 4096 4320 32
     ;;
 esac
 
