@@ -141,3 +141,6 @@
 
   # OEM packages for OEM's (yes / no)
     OEM_SUPPORT="yes"
+
+  # Don't switch framebuffer
+    SWITCH_FRAMEBUFFER="no"
