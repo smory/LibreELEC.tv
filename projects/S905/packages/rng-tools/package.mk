@@ -1,6 +1,6 @@
 ################################################################################
 #      This file is part of OpenELEC - http://www.openelec.tv
-#      Copyright (C) 2009-2016 Stephan Raue (stephan@openelec.tv)
+#      Copyright (C) 2009-2014 Stephan Raue (stephan@openelec.tv)
 #
 #  OpenELEC is free software: you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -16,33 +16,22 @@
 #  along with OpenELEC.  If not, see <http://www.gnu.org/licenses/>.
 ################################################################################
 
-PKG_NAME="amremote"
-PKG_VERSION="6431040"
+PKG_NAME="rng-tools"
+PKG_VERSION="5"
 PKG_REV="1"
-PKG_ARCH="arm aarch64"
-PKG_LICENSE="other"
-PKG_SITE="http://www.amlogic.com"
-PKG_URL="https://github.com/codesnake/amremote/archive/$PKG_VERSION.tar.gz"
-PKG_DEPENDS_TARGET="toolchain usbutils"
+PKG_ARCH="any"
+PKG_LICENSE="GPL"
+PKG_SITE="http://sourceforge.net/projects/gkernel/files/rng-tools/"
+PKG_URL="$SOURCEFORGE_SRC/gkernel/$PKG_NAME/$PKG_VERSION/$PKG_NAME-$PKG_VERSION.tar.gz"
+PKG_DEPENDS_TARGET="toolchain"
 PKG_PRIORITY="optional"
-PKG_SECTION="sysutils/remote"
-PKG_SHORTDESC="amremote - IR remote configuration utility for Amlogic-based devices"
-PKG_LONGDESC="amremote - IR remote configuration utility for Amlogic-based devices"
+PKG_SECTION="kszaq"
+PKG_SHORTDESC="rng-tools: Daemon to use a Hardware TRNG"
+PKG_LONGDESC="The rngd daemon acts as a bridge between a Hardware TRNG (true random number generator) such as the ones in some Intel/AMD/VIA chipsets, and the kernel's PRNG (pseudo-random number generator)."
 
 PKG_IS_ADDON="no"
-PKG_AUTORECONF="no"
-
-makeinstall_target() {
-  mkdir -p $INSTALL/usr/bin
-    cp remotecfg $INSTALL/usr/bin
-
-  mkdir -p $INSTALL/usr/lib/libreelec
-    cp $PKG_DIR/scripts/* $INSTALL/usr/lib/libreelec
-
-  mkdir -p $INSTALL/etc/amremote
-    cp $PKG_DIR/config/*.conf $INSTALL/etc/amremote
-}
+PKG_AUTORECONF="yes"
 
 post_install() {
-  enable_service amlogic-remotecfg.service
+  enable_service rng-tools.service
 }

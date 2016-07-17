@@ -16,33 +16,19 @@
 #  along with OpenELEC.  If not, see <http://www.gnu.org/licenses/>.
 ################################################################################
 
-PKG_NAME="amremote"
-PKG_VERSION="6431040"
+PKG_NAME="brcmfmac_sdio-firmware-aml"
+PKG_VERSION="0.1"
 PKG_REV="1"
-PKG_ARCH="arm aarch64"
-PKG_LICENSE="other"
-PKG_SITE="http://www.amlogic.com"
-PKG_URL="https://github.com/codesnake/amremote/archive/$PKG_VERSION.tar.gz"
-PKG_DEPENDS_TARGET="toolchain usbutils"
+PKG_ARCH="any"
+PKG_LICENSE="GPL"
+PKG_SITE="https://github.com/OpenELEC/OpenELEC.tv"
+PKG_URL="$DISTRO_SRC/$PKG_NAME-$PKG_VERSION.tar.xz"
+PKG_DEPENDS_TARGET="toolchain"
 PKG_PRIORITY="optional"
-PKG_SECTION="sysutils/remote"
-PKG_SHORTDESC="amremote - IR remote configuration utility for Amlogic-based devices"
-PKG_LONGDESC="amremote - IR remote configuration utility for Amlogic-based devices"
+PKG_SECTION="firmware"
+PKG_SHORTDESC="brcmfmac_sdio-firmware: firmware for brcm bluetooth chips used in some Amlogic based devices"
+PKG_LONGDESC="Firmware for Broadcom Bluetooth devices used in some Amlogic based devices, and brcm-patchram-plus that downloads a patchram files in the HCD format to the Bluetooth based silicon and combo chips and other utility functions."
 
 PKG_IS_ADDON="no"
 PKG_AUTORECONF="no"
 
-makeinstall_target() {
-  mkdir -p $INSTALL/usr/bin
-    cp remotecfg $INSTALL/usr/bin
-
-  mkdir -p $INSTALL/usr/lib/libreelec
-    cp $PKG_DIR/scripts/* $INSTALL/usr/lib/libreelec
-
-  mkdir -p $INSTALL/etc/amremote
-    cp $PKG_DIR/config/*.conf $INSTALL/etc/amremote
-}
-
-post_install() {
-  enable_service amlogic-remotecfg.service
-}
